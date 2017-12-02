@@ -7,11 +7,6 @@ const app = express();
 app.use(express.static("public"))
 app.use(cors());
 
-
-app.get("/", (req, res) => {
-
-});
-
 app.get("/api/:year", (req, res) => {
   function findByYear(year){
     var settings = {

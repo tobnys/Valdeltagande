@@ -1,3 +1,17 @@
+/* 
+Applikation för att hitta det högsta valdeltagandet för varje valår.
+
+FÖRBÄTTRINGAR:
+1. Hämta endast relevant information ifrån API:et istället för att hämta hem allt. På en liten skala gör detta inte något men ska det skalas upp kan det bli ett problem.
+2. Ändra lite säkerhet så att om två regioner har likadana valdeltaganden så får de en delad plats.
+3. Väldigt dåligt upplägg på koden, inte speciellt genomtänkt då det var väldigt knepigt att få API:n att funka.
+
+© Tobias Nyström
+*/
+
+
+
+// Globala variabler
 const apiUrl = "http://api.scb.se/OV0104/v1/doris/sv/ssd/ME/ME0104/ME0104D/ME0104T4";
 
 var settings = {
@@ -49,9 +63,11 @@ function callInternalAPI(year){
 function findMaxValue(data){
   let largestValue = 0;
   let largestValueCode = null;
+
   for(let i = 0; i < data.data.length; i++){
     if(data.data[i].values[0] > largestValue){
       largestValue = data.data[i].values[0];
+      // Vi tar även med sifferkoden som är associerat med regionen för att hitta namnet på denna senare.
       largestValueCode = data.data[i].key[0];
     }
   }
@@ -81,10 +97,3 @@ function findRegion(code, value){
       }
   });
 }
-
-
-/* FÖRBÄTTRINGAR:
-1. Hämta endast relevant information ifrån API:et istället för att hämta hem allt. På en liten skala gör detta inte något men ska det skalas upp kan det bli ett problem.
-2. Ändra lite säkerhet så att om två regioner har likadana valdeltaganden så får de en delad plats.
-3. Väldigt dåligt upplägg på koden, inte speciellt genomtänkt då det var väldigt knepigt att få API:n att funka.
-*/
