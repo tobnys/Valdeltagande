@@ -348,4 +348,4 @@ app.get("/api/:year", (req, res) => {
   findByYear(req.params.year);
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
