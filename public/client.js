@@ -1,36 +1,28 @@
 const apiUrl = "http://api.scb.se/OV0104/v1/doris/sv/ssd/ME/ME0104/ME0104D/ME0104T4";
 
-let settings = {
+var settings = {
   method: "GET",
 }
 
-/*
-// Enkelt GET request till API:et i fråga, tar emot datan och skickar det vidare för utskrift.
-fetch(apiUrl, settings).then(function(res) {
-  if (res.ok) {
-    // Om API:et inte formaterar med JSON så gör vi det själva nedanför.
-    res.json().then(function(data) {
-      //logResults(data);
-    });
-  } else {
-    // Om förfrågan inte går igenom då printar vi ut ett meddelande samt statuskoden för requestet, detta är endast för utvecklaren och ej nödvändigt.
-    console.log("Response was not OK, instead got: ", res.status);
-  }
-  // Även ett catch block här om nu förfrågan inte går igenom.
-  }).catch(function(e){
-    if(e){
-      throw new Error(e);
-    }
-});
-*/
+var year = 1973;
+var incrementValue = 3;
 
-callInternalAPI(1973)
+callInternalAPI(year)
 
 // Samordnar alla funktioner och printar ut det slutgiltiga.
 function tick(data, region, value){
-  for(let i = 1; i<data.variables[2].values.length; i++){
-    callInternalAPI(data.variables[2].values[i]);
-    console.log(`Valår: ${data.variables[2].values[i]} | Region: ${region} | Procent: ${value}`);
+  console.log(`Valår: ${year} | Region: ${region} | Procent: ${value}`);
+  if(year === 2014){
+    return;
+  }
+  if(year >= 1994){
+    incrementValue = 4;
+    year = year+incrementValue;
+    callInternalAPI(year);
+  }
+  else {
+    year = year+incrementValue;
+    callInternalAPI(year);
   }
 }
 
